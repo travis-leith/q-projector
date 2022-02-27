@@ -1,0 +1,35 @@
+==================
+single binary expression
+==================
+
+1 + 2
+
+---
+
+(source_file
+  (expression
+    (binary_expression
+      (expression
+        (number))
+      (expression
+        (number)))))
+
+==================
+chained binary expression
+==================
+
+1 * 2 + 3
+
+---
+
+(source_file
+  (expression
+    (binary_expression
+      (expression
+        (number))
+      (expression
+        (binary_expression
+          (expression
+            (number))
+          (expression
+            (number)))))))

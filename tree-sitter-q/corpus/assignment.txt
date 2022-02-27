@@ -1,0 +1,46 @@
+==================
+number assignment
+==================
+
+a:12;
+v12:123.4556;
+---
+
+(source_file
+  (assignment
+    (identifier)
+    (expression
+      (number)))
+  (assignment
+    (identifier)
+    (expression
+      (number))))
+
+==================
+string assignment
+==================
+
+a24 : "some string";
+
+---
+
+(source_file
+  (assignment
+    (identifier)
+    (expression
+      (string))))
+
+
+==================
+date assignment
+==================
+
+a24 : 5555.99.77;
+
+---
+
+(source_file
+  (assignment
+    (identifier)
+    (expression
+      (date))))

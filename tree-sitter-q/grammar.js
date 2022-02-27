@@ -2,9 +2,9 @@ module.exports = grammar({
   name: 'q',
 
   rules: {
-    source_file: $ => repeat($.statement),
+    source_file: $ => repeat($._statement),
 
-    statement: $ => choice(
+    _statement: $ => choice(
         $.assignment,
         $.expression
     ),
@@ -12,30 +12,39 @@ module.exports = grammar({
     assignment: $ => seq(
       $.identifier,
       ':',
-      $.definition,
+      $._definition,
       ';'
     ),
 
-    definition: $ => choice(
+    identifier: $ => /[a-zA-Z]{1}[\d\w]*/,
+
+    _definition: $ => choice(
       // $.function,
       $.expression
     ),
 
     expression: $ => choice(
-      $.atom,
-      // $.binary_expression,
+      $._atom,
+      $.binary_expression,
       // $.function_call
     ),
 
-    atom: $ => choice(
-      $.integer,
-      // $.float,
-      // $.string,
-      // $.symbol
+    _atom: $ => choice(
+      $.number,
+      $.string,
+      $.symbol,
+      $.date
     ),
 
-    integer: $ => /\d+/,
+    number: $ => /\d+\.?\d*/,
+    string: $ => /".*"/,
+    symbol: $ => /`.+/,
+    date: $ => /\d{4}\.\d{2}\.\d{2}/,
 
-    identifier: $ => /[a-zA-Z]{1}[\d\w]*/
+    binary_expression: $ => choice(
+      prec.right(seq($.expression, '*', $.expression)),
+      prec.right(seq($.expression, '+', $.expression)),
+      // ...
+    ),
   }
 });

@@ -5,10 +5,10 @@
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "statement"
+        "name": "_statement"
       }
     },
-    "statement": {
+    "_statement": {
       "type": "CHOICE",
       "members": [
         {
@@ -34,7 +34,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "definition"
+          "name": "_definition"
         },
         {
           "type": "STRING",
@@ -42,7 +42,11 @@
         }
       ]
     },
-    "definition": {
+    "identifier": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z]{1}[\\d\\w]*"
+    },
+    "_definition": {
       "type": "CHOICE",
       "members": [
         {
@@ -56,26 +60,97 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "atom"
+          "name": "_atom"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "binary_expression"
         }
       ]
     },
-    "atom": {
+    "_atom": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "integer"
+          "name": "number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "symbol"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "date"
         }
       ]
     },
-    "integer": {
+    "number": {
       "type": "PATTERN",
-      "value": "\\d+"
+      "value": "\\d+\\.?\\d*"
     },
-    "identifier": {
+    "string": {
       "type": "PATTERN",
-      "value": "[a-zA-Z]{1}[\\d\\w]*"
+      "value": "\".*\""
+    },
+    "symbol": {
+      "type": "PATTERN",
+      "value": "`.+"
+    },
+    "date": {
+      "type": "PATTERN",
+      "value": "\\d{4}\\.\\d{2}\\.\\d{2}"
+    },
+    "binary_expression": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PREC_RIGHT",
+          "value": 0,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "STRING",
+                "value": "*"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 0,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "STRING",
+                "value": "+"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              }
+            ]
+          }
+        }
+      ]
     }
   },
   "extras": [
